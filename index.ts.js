@@ -16,14 +16,24 @@ const app = new Application(),
   router = new Router(),
   sFinity = 999999999,
   host = Deno.env.toObject().PROJECT_DOMAIN
-    ? "https://deno-page.glitch.me"
-    : "http://deno-page.eu-4.evennode.com";
+    ? "https://basic-boo.glitch.me"
+    : "-";
 
 //serve
 app.get(".*", async ctx => {
-  //console.debug(ctx.req.path);
-
   console.log(ctx.req.original.headers);
+
+  if (!ctx.req.original.headers.get("authorization")) {
+    ctx.res
+      .setStatus(401)
+      .addHeader("WWW-Authenticate", 'Basic realm="shadow realm"');
+  } else {
+    ctx.res.setStatus(200);
+    return "hi";
+  }
+  switch (1) {
+  }
+  return "";
 });
 
 (async () => {

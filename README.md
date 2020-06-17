@@ -1,3 +1,1 @@
-let's abuse basic auth for redirecting lol
-
-i always wanted to do something like this
+let's have some fun with basic auth yo
