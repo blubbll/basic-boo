@@ -7,6 +7,7 @@ import {
   Application,
   Router
 } from "https://deno.land/x/denotrain@v0.5.0/mod.ts";
+import { readFileStr } from "https://deno.land/std/fs/read_file_str.ts";
 
 //dirname
 const __dirname = Deno.env.toObject().PWD;
@@ -19,8 +20,13 @@ const app = new Application(),
     ? "https://basic-boo.glitch.me"
     : "-";
 
+app.get("/", async ctx => {
+  ctx.res.setMimeType("text/html");
+  return await readFileStr(`${__dirname}/login.html`);
+});
+
 //serve
-app.get(".*", async ctx => {
+app.get("/auth", async ctx => {
   console.log(ctx.req.original.headers);
 
   if (!ctx.req.original.headers.get("authorization")) {
