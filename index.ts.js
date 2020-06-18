@@ -22,7 +22,11 @@ const app = new Application(),
 
 app.get("/", async ctx => {
   ctx.res.setMimeType("text/html");
-  return await readFileStr(`${__dirname}/login.html`);
+
+  return (await readFileStr(`${__dirname}/login.html`)).replace(
+    "{{status}}",
+    ctx.req.original.headers.get("authorization") ? '"green"' : '"red"'
+  );
 });
 
 //serve
