@@ -47,9 +47,15 @@
       form input::placeholder {
         color: rgba(0, 0, 0, 0.5) !important;
       }
+      form[state="login"] linker {
+        display: none !important;
+      }
+      form[state="linker"] login {
+        display: none !important;
+      }
     </style>
   </head>
-  <body>
+  <body onload="$('input[name=user]').focus()">
     <canvas id="main_canvas" width="300" height="300"></canvas>
 
     <script>
@@ -73,8 +79,7 @@
                     $("form-wrapper").innerHTML = _bak;
                   }, 999);
                   }*/
-                  history.replaceState(null, null, location.href )
-                
+                history.replaceState(null, null, location.href);
               } else {
                 alert("invalid credentials!");
               }
@@ -97,12 +102,31 @@
         }
       };
     </script>
-    <form-wrapper>
-      <form
-        class="d-flex flex-column p-2"
-        onsubmit="return page.login()"
-        method="POST"
-      >
+    <form
+      state="login"
+      class="d-flex flex-column p-2 login"
+      onsubmit="return page.login()"
+      method="POST"
+    >
+      <login>
+        <div class="d-flex flex-column text-white">
+          Login with Key:
+          <input name="user" class="btn-warning text-center" value="🔑"/>
+          <p>
+            Account not linked yet?
+          </p>
+          <button
+            type="button"
+            onclick="page.logout()"
+            class="btn btn-sm rounded-0 btn-danger m-1"
+          >
+          Link account now
+          </button>
+          
+        </div>
+      </login>
+
+      <linker>
         <div class="d-flex flex-row">
           <button
             type="button"
@@ -145,8 +169,8 @@
         <button type="submit" class="btn">
           SUBMIT
         </button>
-      </form>
-    </form-wrapper>
+      </linker>
+    </form>
   </body>
   <script>
     window.loggedIn = {{status}}
