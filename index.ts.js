@@ -25,12 +25,19 @@ app.get("/", async ctx => {
 
   return (await readFileStr(`${__dirname}/login.html`)).replace(
     "{{status}}",
-    ctx.req.original.headers.get("authorization") ? '"green"' : '"red"'
+    ctx.req.original.headers.get("authorization") ? 'true' : 'false'
   );
 });
 
-//serve
-app.get("/auth", async ctx => {
+//logout
+app.get("/logout", async ctx => {
+  ctx.res
+      .setStatus(401)
+  return "out"
+});
+
+//login
+app.get("/login", async ctx => {
   console.log(ctx.req.original.headers);
 
   if (!ctx.req.original.headers.get("authorization")) {
@@ -43,7 +50,7 @@ app.get("/auth", async ctx => {
   }
   switch (1) {
   }
-  return "";
+  return "in";
 });
 
 (async () => {

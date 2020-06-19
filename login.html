@@ -10,80 +10,146 @@
     <!-- Price Slider Stylesheets -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/Primer/14.4.0/primer.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Primer/14.4.0/primer.min.css"
     />
     <!-- bs utilities -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-utilities@4.1.3/bootstrap-utilities.min.css"
     />
-  </head>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      background: black;
-    }
-    body {
-      overflow: hidden;
-    }
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background: black;
+      }
+      body {
+        overflow: hidden;
+      }
 
-    form {
-      position: fixed;
-      background: rgba(127, 127, 127, 0.6);
-      border-radius: 0.5rem;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    form label {
-      color: white;
-      background: rgba(255, 255, 255, 0.3);
-      margin-bottom: 5px;
-    }
-    form input {
-      background: rgba(255, 255, 255, 0.1) !important;
-    }
-    form input::placeholder {
-      color: rgba(0, 0, 0, 0.5) !important;
-    }
-  </style>
+      form {
+        position: fixed;
+        background: rgba(127, 127, 127, 0.6);
+        border-radius: 0.5rem;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      form label {
+        color: white;
+        background: rgba(255, 255, 255, 0.3);
+        margin-bottom: 5px;
+      }
+      form input {
+        background: rgba(255, 255, 255, 0.1) !important;
+      }
+      form input::placeholder {
+        color: rgba(0, 0, 0, 0.5) !important;
+      }
+    </style>
+  </head>
   <body>
     <canvas id="main_canvas" width="300" height="300"></canvas>
 
     <script>
-      const boo = fetch("").then(res => {});
-    </script>
+      //selectors
+      const $ = document.querySelector.bind(document),
+        $$ = document.querySelectorAll.bind(document);
+      const page = {
+        login: _ => {
+          var xhr = new XMLHttpRequest();
 
-    <form class="d-flex flex-column p-2" onsubmit="return boo">
-      <label class="px-2 d-flex align-items-center"
-        >user:
-        <input
-          name="user"
-          class="ml-2 form-control input-lg"
-          type="text"
-          autocomplete="username"
-          placeholder="Username you dork"
-        />
-      </label>
-      <label class="px-2 d-flex align-items-center"
-        >pass:
-        <input
-          name="pass"
-          class="ml-2 form-control input-lg"
-          type="password"
-          autocomplete="current-password"
-          placeholder="Password eh"
-        />
-      </label>
-      <button type="submit" onsubmit="return what()" class="btn mx-auto">
-        SUBMIT
-      </button>
-    </form>
+          xhr.onload = _ => {
+            if (xhr.readyState === 4) {
+              const loginOk = xhr.status === 200;
+              console.log("Manual check: loggedIn?", loginOk);
+
+              if (loginOk) {
+                /*{
+                  const _bak = $("form-wrapper").innerHTML;
+                  $("form").remove();
+                  setTimeout(() => {
+                    $("form-wrapper").innerHTML = _bak;
+                  }, 999);
+                  }*/
+                  history.replaceState(null, null, location.href )
+                
+              } else {
+                alert("invalid credentials!");
+              }
+              window.loggedIn = loginOk;
+            }
+          };
+          xhr.open(
+            "GET",
+            "/login",
+            true,
+            $("input[name=user]").value,
+            $("input[name=pass]").value
+          );
+          xhr.send(null);
+
+          return false;
+        },
+        logout: _ => {
+          window.loggedIn = false;
+        }
+      };
+    </script>
+    <form-wrapper>
+      <form
+        class="d-flex flex-column p-2"
+        onsubmit="return page.login()"
+        method="POST"
+      >
+        <div class="d-flex flex-row">
+          <button
+            type="button"
+            onclick="page.logout()"
+            class="btn btn-sm rounded-0 btn-danger m-1 w-50"
+          >
+            LOGOUT
+          </button>
+          <button
+            type="button"
+            onclick="location.reload(true)"
+            class="btn btn-sm rounded-0 btn-outline m-1 w-50"
+          >
+            RELOAD
+          </button>
+        </div>
+
+        <label class="px-2 d-flex align-items-center"
+          >user:
+          <input
+            required
+            name="user"
+            class="ml-2 form-control input-lg"
+            type="text"
+            autocomplete="username"
+            placeholder="Username you dork"
+          />
+        </label>
+        <label class="px-2 d-flex align-items-center"
+          >pass:
+          <input
+            required
+            name="pass"
+            class="ml-2 form-control input-lg"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Password eh"
+          />
+        </label>
+        <button type="submit" class="btn">
+          SUBMIT
+        </button>
+      </form>
+    </form-wrapper>
   </body>
   <script>
-    const status = {{status}}
+    window.loggedIn = {{status}}
     //Math things
     function randomIntInRange(a, b) {
       return ((Math.random() * (b - a + 1)) | 0) + a;
@@ -118,7 +184,7 @@
       for (let y = 0; y < this.size; y++) {
         this.chars[y] = new Char();
 
-        this.colors[y] = status==="green" ?
+        this.colors[y] = window.loggedIn ?
           "rgba(0, 200, 70 , " + map_line(y, this.size, 0, 0, 1.1) + ")" :
         "rgba(255, 0, 70 , " + map_line(y, this.size, 0, 0, 1.1) + ")"
         ;
