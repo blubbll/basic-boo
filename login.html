@@ -53,16 +53,30 @@
       form[state="linker"] login {
         display: none !important;
       }
+      login input {
+        -webkit-appearance: none;
+      }
+      login input::placeholder {
+        color: white !important;
+      }
     </style>
+    <script>
+      //selectors
+      const $ = document.querySelector.bind(document),
+        $$ = document.querySelectorAll.bind(document);
+    </script>
   </head>
   <body onload="$('input[name=user]').focus()">
     <canvas id="main_canvas" width="300" height="300"></canvas>
 
     <script>
-      //selectors
-      const $ = document.querySelector.bind(document),
-        $$ = document.querySelectorAll.bind(document);
       const page = {
+        toggleState: _ => {
+          $("form").setAttribute(
+            "state",
+            $("form").getAttribute("state") === "link" ? "login" : "linker"
+          );
+        },
         login: _ => {
           var xhr = new XMLHttpRequest();
 
@@ -72,13 +86,6 @@
               console.log("Manual check: loggedIn?", loginOk);
 
               if (loginOk) {
-                /*{
-                  const _bak = $("form-wrapper").innerHTML;
-                  $("form").remove();
-                  setTimeout(() => {
-                    $("form-wrapper").innerHTML = _bak;
-                  }, 999);
-                  }*/
                 history.replaceState(null, null, location.href);
               } else {
                 alert("invalid credentials!");
@@ -86,12 +93,17 @@
               window.loggedIn = loginOk;
             }
           };
+
           xhr.open(
             "GET",
             "/login",
             true,
-            $("input[name=user]").value,
-            $("input[name=pass]").value
+            $("form").state === "login"
+              ? $("input[name=loginUser]").value
+              : $("input[name=linkerUser]").value,
+            $("form").state === "login"
+              ? $("input[name=loginPass]").value
+              : $("input[name=linkerPass]").value
           );
           xhr.send(null);
 
@@ -108,47 +120,59 @@
       onsubmit="return page.login()"
       method="POST"
     >
+      <div class="d-flex flex-row">
+        <button
+          type="button"
+          onclick="page.logout()"
+          class="btn btn-sm rounded-0 btn-danger m-1 w-50"
+        >
+          LOGOUT
+        </button>
+        <button
+          type="button"
+          onclick="location.reload(true)"
+          class="btn btn-sm rounded-0 btn-outline m-1 w-50"
+        >
+          RELOAD
+        </button>
+      </div>
       <login>
         <div class="d-flex flex-column text-white">
-          Login with Key:
-          <input name="user" class="btn-warning text-center" value="🔑"/>
-          <p>
+          <input
+            name="loginUser"
+            type="text"
+            autocomplete="username"
+            class="m-2 text-center py-4 text-white"
+            placeholder="Click to 🔑 login"
+            oninput="alert(1)"
+          />
+          <input
+            name="loginPass"
+            type="password"
+            autocomplete="current-password"
+            class="d-none"
+          />
+
+          <hr />
+          <span class="text-center">
             Account not linked yet?
-          </p>
+          </span>
           <button
             type="button"
-            onclick="page.logout()"
             class="btn btn-sm rounded-0 btn-danger m-1"
+            onclick="page.toggleState()"
           >
-          Link account now
+            Link account now
           </button>
-          
         </div>
       </login>
 
       <linker>
-        <div class="d-flex flex-row">
-          <button
-            type="button"
-            onclick="page.logout()"
-            class="btn btn-sm rounded-0 btn-danger m-1 w-50"
-          >
-            LOGOUT
-          </button>
-          <button
-            type="button"
-            onclick="location.reload(true)"
-            class="btn btn-sm rounded-0 btn-outline m-1 w-50"
-          >
-            RELOAD
-          </button>
-        </div>
-
         <label class="px-2 d-flex align-items-center"
           >user:
           <input
             required
-            name="user"
+            name="linkUser"
             class="ml-2 form-control input-lg"
             type="text"
             autocomplete="username"
@@ -159,7 +183,7 @@
           >pass:
           <input
             required
-            name="pass"
+            name="linkPass"
             class="ml-2 form-control input-lg"
             type="password"
             autocomplete="current-password"

@@ -21,6 +21,9 @@ const app = new Application(),
     : "-";
 
 app.get("/", async ctx => {
+  
+  console.log(ctx.req.original.headers)
+  
   ctx.res.setMimeType("text/html");
 
   return (await readFileStr(`${__dirname}/login.html`)).replace(
