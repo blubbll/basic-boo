@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>login or something</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="all,follow" />
+    <!-- Price Slider Stylesheets -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Primer/14.4.0/primer.min.css"
+    />
+    <!-- bs utilities -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-utilities@4.1.3/bootstrap-utilities.min.css"
+    />
+    <link rel="stylesheet" href="style.css"/>
+    <script src="script.js"></script>
+  </head>
+  <body onload="$('input[name=user]').focus()">
+    <canvas id="main_canvas" width="300" height="300"></canvas>
+
+    <div id="loginBlock">
+      <span class="txtHelper">Use secure login method of device?</span>
+      <input
+        name="loginUser"
+        type="text"
+        class="btnUse btn"
+        placeholder="Login via secure features"
+        onfocus="page.hideFill()"
+        onblur="page.showFill()"
+      />
+      <input type="password" class="d-none" />
+      <div class="txtAction d-flex flex-row">Not linked yet?</div>
+    </div>
+    <form
+      state="login"
+      class="d-flex flex-column p-2 login"
+      onsubmit="return page.login()"
+      method="POST"
+    >
+      <div class="d-flex flex-row">
+        <button
+          type="button"
+          onclick="page.logout()"
+          class="btn btn-sm rounded-0 btn-danger m-1 w-50"
+        >
+          LOGOUT
+        </button>
+        <button
+          type="button"
+          onclick="location.reload(true)"
+          class="btn btn-sm rounded-0 btn-outline m-1 w-50"
+        >
+          RELOAD
+        </button>
+      </div>
+
+      <!--<login>
+        <div class="d-flex flex-column text-white">
+          <input
+            name="loginUser"
+            type="text"
+            autocomplete="username"
+            class="m-2 text-center py-4 text-white"
+            placeholder="Click to 🔑 login"
+            oninput="page.login()"
+          />
+          <input
+            name="loginPass"
+            type="password"
+            autocomplete="current-password"
+            class="d-none"
+          />
+
+          <hr />
+          <span class="text-center">
+            Account not linked yet?
+          </span>
+          <button
+            type="button"
+            class="btn btn-sm rounded-0 btn-danger m-1"
+            onclick="page.toggleState()"
+          >
+            Link account now
+          </button>
+        </div>
+      </login>-->
+
+      <linker>
+        <label class="px-2 d-flex align-items-center"
+          >user:
+          <input
+            required
+            name="linkUser"
+            class="ml-2 form-control input-lg"
+            type="text"
+            autocomplete="username"
+            placeholder="Username you dork"
+          />
+        </label>
+        <label class="px-2 d-flex align-items-center"
+          >pass:
+          <input
+            required
+            name="linkPass"
+            class="ml-2 form-control input-lg"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Password eh"
+          />
+        </label>
+        <button type="submit" class="btn">
+          SUBMIT
+        </button>
+      </linker>
+    </form>
+  </body>
+  <script src="bg.js"></script>
+</html>

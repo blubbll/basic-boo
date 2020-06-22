@@ -20,7 +20,7 @@ const app = new Application(),
     ? "https://basic-boo.glitch.me"
     : "-";
 
-app.get("/", async ctx => {
+/*app.get("/", async ctx => {
   
   console.log(ctx.req.original.headers)
   
@@ -30,6 +30,42 @@ app.get("/", async ctx => {
     "{{status}}",
     ctx.req.original.headers.get("authorization") ? 'true' : 'false'
   );
+});*/
+
+//serve
+app.get(".*", async ctx => {
+  //console.debug(ctx.req.path);
+
+  {
+    //console.log(ctx.req.original.headers)
+    let mime;
+
+    switch (ctx.req.path.split(".")[ctx.req.path.split(".").length - 1]) {
+      case "css":
+        {
+          mime = "text/css";
+        }
+        break;
+      case "js": {
+        mime = "text/javascript";
+      }
+    }
+    if (mime) {
+      ctx.res.setMimeType(mime);
+      return (await readFileStr(
+        `${__dirname}/assets/${ctx.req.path.slice(1)}`
+      )).trim();
+    } else {
+      ctx.res.setMimeType("text/html");
+      return (await readFileStr(`${__dirname}/views/index.html`))
+        .replace("{{from}}", ctx.req.path)
+        .replace(
+          "{{base}}",
+          //`//${ctx.req.original.headers.get("host")}/`
+          `${host}`
+        );
+    }
+  }
 });
 
 //logout
