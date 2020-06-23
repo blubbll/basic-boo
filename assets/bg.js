@@ -1,4 +1,4 @@
-  window.loggedIn = {{status}}
+  window.loggedIn = false
     //Math things
     function randomIntInRange(a, b) {
       return ((Math.random() * (b - a + 1)) | 0) + a;

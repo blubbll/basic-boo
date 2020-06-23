@@ -17,24 +17,42 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-utilities@4.1.3/bootstrap-utilities.min.css"
     />
-    <link rel="stylesheet" href="style.css"/>
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
+       <link rel="stylesheet" href="iOS.css" />
   </head>
-  <body onload="$('input[name=user]').focus()">
+  <body>
     <canvas id="main_canvas" width="300" height="300"></canvas>
 
-    <div id="loginBlock">
-      <span class="txtHelper">Use secure login method of device?</span>
-      <input
-        name="loginUser"
-        type="text"
-        class="btnUse btn"
-        placeholder="Login via secure features"
-        onfocus="page.hideFill()"
-        onblur="page.showFill()"
-      />
-      <input type="password" class="d-none" />
-      <div class="txtAction d-flex flex-row">Not linked yet?</div>
+    <div
+      id="loginBlock"
+      class="d-flex flex-column align-items-center justify-content-around"
+    >
+      <div class="col-12 col-s-6 row text-center">
+        <span class="txtHelper bg-clear"
+          >Use secure login method of device?</span
+        >
+      </div>
+      <div class="d-flex row col-12 justify-content-center">
+        <input
+          name="loginUser"
+          type="text"
+          class="btnUse btn text-center"
+          placeholder="Login via secure features"
+          onfocus="page.hideFill()"
+          onblur="page.showFill()"
+        />
+
+        <input type="password" class="d-none" />
+      </div>
+      <div class="d-flex row col-12 justify-content-center mb-2">
+        <button
+          type="button"
+          class="btn btnLinker d-flex flex-row"
+          onclick="page.loginDialog()"
+        >
+          Not linked yet?
+        </button>
+      </div>
     </div>
     <form
       state="login"
@@ -120,4 +138,6 @@
     </form>
   </body>
   <script src="bg.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
+  <script src="script.js"></script>
 </html>

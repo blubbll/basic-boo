@@ -1,0 +1,28 @@
+.swal2-modal {
+  border-radius: 10px;
+  background: rgba(255,255,255,.9)!important
+}
+
+.swal2-confirm {
+  border-top: 1px solid #ccc !important;
+  border-bottom: 0 !important;
+  display: inline-block !important;
+  margin-top: 0rem !important;
+  /*margin-bottom: 1rem;*/
+  width: 100% !important;
+  border-radius: 10px !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  font-size: 1.1rem !important;
+  padding: 5px 0 !important;
+  color: #2A7CD5 !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  outline: none !important;
+}
+
+.swal2-title{
+  font-size: 16px!important;
+}
