@@ -26,6 +26,8 @@
 .swal2-title{
   font-size: 16px!important;
 }
-.swal2-center{
-  margin-bottom: 50%!important;
+.swal2-container{
+  top: 0!important;
+      overflow: visible!important;
+  position: absolute!important;
 }

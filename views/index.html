@@ -31,18 +31,14 @@
         <span class="txtHelper bg-clear">You are not logged in!</span>
       </div>
       <div class="d-flex row col-12 justify-content-center mb-4">
-        <input
+        <button
           name="loginUser"
           type="text"
           class="btnUse btn text-center w-75"
           placeholder="use secure element"
-    
-               onchange="page.loginSafe()"
-        />
-                <input name="loginPass" type="password" class="d-none" />
-
-        <button class="btnLinker w-25"  onclick="page.loginDialog()">
-          Use form instead
+          onclick="page.loginDialog()"
+        >
+          Login now
         </button>
       </div>
     </div>
