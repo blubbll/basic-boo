@@ -21,19 +21,15 @@ const page = {
 
         if (loginOk) {
           history.replaceState(null, null, location.href);
+          page.hideFill();
         } else {
-          page.loginDialog
+          page.loginDialog;
         }
         window.loggedIn = loginOk;
       }
     };
 
-    xhr.open(
-      "GET",
-      "/login",
-      true,
-      user, pass
-    );
+    xhr.open("GET", "/login", true, user, pass);
     xhr.send(null);
 
     return false;
@@ -41,25 +37,25 @@ const page = {
   logout: _ => {
     window.loggedIn = false;
   },
+  loginSafe: _ => {
+    page.login($("[name=loginUser]", $("[name=loginPass]")));
+  },
   loginDialog: async _ => {
-    const userSel = `user_${+new Date()}`
-    const passSel = `pass_${+new Date()}`
+    const userSel = `user`;
+    const passSel = `pass`;
     const { value: formValues } = await Swal.fire({
       title: "Login with Windows account:",
       html:
         `<div class="mb-3">
-            <input id="${userSel}" class="form-control w-100" type="username" autocomplete="off" placeholder="somebody@t.com">
+            <input id="${userSel}" class="form-control w-100" type="username" autocomplete="username" placeholder="somebody@t.com">
          </div>` +
-        `<input id="${passSel}" class="form-control w-100" type="password" placeholder="password" autocomplete="off">`,
+        `<input id="${passSel}" class="form-control w-100" type="password" placeholder="password" autocomplete="current-password">`,
       focusConfirm: false,
       preConfirm: () => {
-        return [
-          $(`#${userSel}`).value,
-          $(`#${passSel}`).value
-        ];
+        return [$(`#${userSel}`).value, $(`#${passSel}`).value];
       }
     });
-    page.login(formValues[0], formValues[1])
+    page.login(formValues[0], formValues[1]);
   },
   hideFill: _ => {
     $("#loginBlock").setAttribute("style", "display:none !important");
@@ -68,7 +64,3 @@ const page = {
     $("#loginBlock").setAttribute("style", "");
   }
 };
-
-setTimeout(()=>{
-  page.loginDialog()
-}, 5000)
