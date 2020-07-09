@@ -29,7 +29,7 @@ const page = {
       }
     };
 
-    xhr.open("GET", "/login", true, user, pass);
+    xhr.open("POST", "/login", true, user, pass);
     xhr.send(null);
 
     return false;

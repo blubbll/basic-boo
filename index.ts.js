@@ -76,14 +76,21 @@ app.get("/logout", async ctx => {
 });
 
 //login
-app.get("/login", async ctx => {
-  console.log(ctx.req.original.headers);
+app.post("/login", async ctx => {
+
 
   if (!ctx.req.original.headers.get("authorization")) {
     ctx.res
       .setStatus(401)
       .addHeader("WWW-Authenticate", 'Basic realm="shadow realm"');
   } else {
+    
+        const raw = atob(ctx.req.original.headers.get("authorization").split("Basic ")[1]);
+        const user = raw.split(":")[0];
+        const pass = raw.split(":")[1];
+        console.log(`User [${user}] is trying to login with password [${pass}]...`);
+
+    
     ctx.res.setStatus(200);
     return "hi";
   }
